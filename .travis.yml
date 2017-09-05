@@ -1,9 +1,7 @@
 language: java
 jdk:
 - openjdk8
-before_install:
-- openssl aes-256-cbc -K $encrypted_c4f2ba029423_key -iv $encrypted_c4f2ba029423_iv
-  -in arcada.enc -out arcada -d
+
 env:
   global:
     secure: Y46nUVCQwUT3wzqCZ1grLkQvsuFETy6aCKsiY0aIvlxqYuVyU6CGVuywLsTOICwcDcdHB+LR0QhhH9CqBJrNEBUCMangEkaxMeB+Ws6fMywM6OrM78/97vc3yV1E6WLaujJnciFpv8vpss8oZSezn4jeevSpvfNJ2DXZFCgmu7tIPIS7PUPDlb64Hdwocvi1XhqDtSWKdHat1u4aUd9sMmDxE3jdVRGaJ5QojN0TuC4mPSSmHZA3gxx12Cp/GG0QpucnUjVjFCF1xtZMo8iu+hSfLu9V/N4tECTDkz9PG71CSoYt2AKrUsHVTy1+KKbg2oGb7Abz+I8DaibkY+ntDL46in5ixmk+IPAQPqXLLwUPs8+dfJorCGIin1c9xT+KmvkNgfN0fGJzjfl+NQDrrHOw+uB5Rt06wf/BDiZo3PuyXICZH673S+EUA2GjkVinRP1UzgjqU2eH1T//MVhnSFUlaYXEpIFEKH7pllfvG/WDrPjScky2kjiCg+T3yR2dkIXROQA+TwI8K2kuh1QgrE+ynYQ9gN7/hBCuUDNXADYtkay3Gbtz6+4uBOaVFTLlTW4HZETIP4Ad80ErNGSVxog5D2ZoHPnrcnZsS3/Ro0yw4M3NppUNFmW7xIjwH27icOvauq3tXov6sXBMWvv3N8t6LWbtwPhg3PtsNgAxUKQ=
@@ -11,12 +9,22 @@ env:
 script:
 - ./gradlew bootRepackage
 
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_c4f2ba029423_key -iv $encrypted_c4f2ba029423_iv
+  -in arcada.enc -out arcada -d
+- chmod 400 arcada
+
+addons:
+  ssh_known_hosts: $HOST
+
 deploy:
-  provider: script
-  skip_cleanup: true
-  script:
-    - chmod 400 arcada
-    - scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i arcada build/libs/demo-0.0.1-SNAPSHOT.jar ubuntu@$HOST:app.jar
-    - ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -tt -i arcada ubuntu@$HOST /home/ubuntu/restartApp.sh
-  on:
-    branch: master
+  - provider: script
+    skip_cleanup: true
+    script: scp -i arcada build/libs/demo-0.0.1-SNAPSHOT.jar ubuntu@$HOST:app.jar
+    on:
+      branch: master
+  - provider: script
+    skip_cleanup: true
+    script: ssh -tt -i arcada ubuntu@$HOST /home/ubuntu/restartApp.sh
+    on:
+      branch: master
