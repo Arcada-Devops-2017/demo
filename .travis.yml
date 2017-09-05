@@ -10,5 +10,5 @@ env:
 
 script:
 - ./gradlew bootRepackage
-- scp -i arcada build/libs/demo-0.0.1-SNAPSHOT.jar ubuntu@$HOST:app.jar
-- ssh -tt -i arcada ubuntu@$HOST /home/ubuntu/restartApp.sh
+- scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i arcada build/libs/demo-0.0.1-SNAPSHOT.jar ubuntu@$HOST:app.jar
+- ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -tt -i arcada ubuntu@$HOST /home/ubuntu/restartApp.sh
