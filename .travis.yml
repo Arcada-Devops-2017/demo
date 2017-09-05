@@ -14,17 +14,14 @@ before_deploy:
   -in arcada.enc -out arcada -d
 - chmod 400 arcada
 
-addons:
-  ssh_known_hosts: $HOST
-
 deploy:
   - provider: script
     skip_cleanup: true
-    script: scp -i arcada build/libs/demo-0.0.1-SNAPSHOT.jar ubuntu@$HOST:app.jar
+    script: scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i arcada build/libs/demo-0.0.1-SNAPSHOT.jar ubuntu@$HOST:app.jar
     on:
       branch: master
   - provider: script
     skip_cleanup: true
-    script: ssh -tt -i arcada ubuntu@$HOST /home/ubuntu/restartApp.sh
+    script: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -tt -i arcada ubuntu@$HOST /home/ubuntu/restartApp.sh
     on:
       branch: master
