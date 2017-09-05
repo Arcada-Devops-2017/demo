@@ -10,5 +10,13 @@ env:
 
 script:
 - ./gradlew bootRepackage
-- scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i arcada build/libs/demo-0.0.1-SNAPSHOT.jar ubuntu@$HOST:app.jar
-- ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -tt -i arcada ubuntu@$HOST /home/ubuntu/restartApp.sh
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script:
+    - chmod 400 arcada
+    - scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i arcada build/libs/demo-0.0.1-SNAPSHOT.jar ubuntu@$HOST:app.jar
+    - ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -tt -i arcada ubuntu@$HOST /home/ubuntu/restartApp.sh
+  on:
+    branch: master
