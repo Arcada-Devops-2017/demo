@@ -16,11 +16,14 @@ before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
-
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz
+  - mkdir geckodriver
+  - tar zxvf geckodriver-v0.18.0-linux64.tar.gz -C geckodriver
+  - export PATH=$PATH:$PWD/geckodriver
 
 script:
   - ./gradlew test # Unit tests
-  - "java -jar build/libs/demo-0.0.1-SNAPSHOT.jar --demo.mock=true &"
+  - "java -jar build/libs/demo-0.0.1-SNAPSHOT.jar --demo.mock=true &> /dev/null &"
   - pybot robot
 
 before_deploy:
