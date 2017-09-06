@@ -26,8 +26,8 @@ before_script:
 
 script:
   - ./gradlew test # Unit tests
-  - "java -jar build/libs/demo-0.0.1-SNAPSHOT.jar --demo.mock=true &"
-  - sleep 10 # Wait for spring to boot
+  - "java -jar build/libs/demo-0.0.1-SNAPSHOT.jar --demo.mock=true &> /dev/null &"
+  - sleep 20 # Wait for spring to boot
   - pybot robot
 
 before_deploy:
