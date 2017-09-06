@@ -2,6 +2,9 @@ language: java
 jdk:
 - openjdk8
 
+addons:
+  firefox: "55.0.3"
+
 env:
   global:
     secure: Y46nUVCQwUT3wzqCZ1grLkQvsuFETy6aCKsiY0aIvlxqYuVyU6CGVuywLsTOICwcDcdHB+LR0QhhH9CqBJrNEBUCMangEkaxMeB+Ws6fMywM6OrM78/97vc3yV1E6WLaujJnciFpv8vpss8oZSezn4jeevSpvfNJ2DXZFCgmu7tIPIS7PUPDlb64Hdwocvi1XhqDtSWKdHat1u4aUd9sMmDxE3jdVRGaJ5QojN0TuC4mPSSmHZA3gxx12Cp/GG0QpucnUjVjFCF1xtZMo8iu+hSfLu9V/N4tECTDkz9PG71CSoYt2AKrUsHVTy1+KKbg2oGb7Abz+I8DaibkY+ntDL46in5ixmk+IPAQPqXLLwUPs8+dfJorCGIin1c9xT+KmvkNgfN0fGJzjfl+NQDrrHOw+uB5Rt06wf/BDiZo3PuyXICZH673S+EUA2GjkVinRP1UzgjqU2eH1T//MVhnSFUlaYXEpIFEKH7pllfvG/WDrPjScky2kjiCg+T3yR2dkIXROQA+TwI8K2kuh1QgrE+ynYQ9gN7/hBCuUDNXADYtkay3Gbtz6+4uBOaVFTLlTW4HZETIP4Ad80ErNGSVxog5D2ZoHPnrcnZsS3/Ro0yw4M3NppUNFmW7xIjwH27icOvauq3tXov6sXBMWvv3N8t6LWbtwPhg3PtsNgAxUKQ=
@@ -11,11 +14,6 @@ before_install:
 
 install:
   - ./gradlew bootRepackage
-
-addons:
-  apt:
-    packages:
-      - firefox
 
 before_script:
   - "export DISPLAY=:99.0"
