@@ -7,4 +7,4 @@ Test Teardown   Close Browser
 *** Test Cases ***
 
 Test string
-    Check for Hello World in content
+    Check for Hello Testing in content
