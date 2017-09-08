@@ -24,3 +24,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+/report.html
+/geckodriver.log
+/output.xml
+/log.html
